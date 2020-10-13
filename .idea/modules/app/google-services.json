@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "22338535536",
+    "firebase_url": "https://tra-cuu-bien-so.firebaseio.com",
+    "project_id": "tra-cuu-bien-so",
+    "storage_bucket": "tra-cuu-bien-so.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22338535536:android:399387a72342c5b72574b5",
+        "android_client_info": {
+          "package_name": "com.pth.tracuubienso"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22338535536-cpdottqgkdmaj7giqh377loj23msnpag.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pth.tracuubienso",
+            "certificate_hash": "bc916cfea7e1ae03c84291d25896f80577392c69"
+          }
+        },
+        {
+          "client_id": "22338535536-fjdck8rukt0deuebra5jdfeb4vu8cs50.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArlIWKlAVuIZ-t7sV1_O2tv_b_zEQ5hBE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22338535536-fjdck8rukt0deuebra5jdfeb4vu8cs50.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

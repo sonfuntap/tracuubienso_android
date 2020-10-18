@@ -18,4 +18,5 @@
     <string name="check_password">Kiểm  tra lại Password</string>
     <string name="check_password_lenght">Độ dài password phải lớn hơn 6 ký tự</string>
     <string name="check_password_again">2 mật khẩu không trùng khớp</string>
+    <string name="check_phone">Kiểm tra lại số điện thoại</string>
 </resources>

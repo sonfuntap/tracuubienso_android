@@ -1,10 +1,17 @@
 package com.pth.tracuubienso.models;
 
-public class Province {
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Province extends ViewModel {
     private String nameProvince;
     private String codeProvince;
     private String information;
     private District district;
+
 
     public String getNameProvince() {
         return nameProvince;

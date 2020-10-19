@@ -28,8 +28,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
+        initView();
 
     }
+
+    protected abstract void initView();
 
     protected void showAlertDialog(Context context, String title, String message) {
         new AlertDialog.Builder(context)

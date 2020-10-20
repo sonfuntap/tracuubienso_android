@@ -113,6 +113,11 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
+    protected void initView() {
+
+    }
+
+    @Override
     protected void showAlertDialog(Context context, String title, String message) {
         super.showAlertDialog(context, title, message);
     }

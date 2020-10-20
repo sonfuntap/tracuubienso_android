@@ -40,30 +40,9 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        initView();
         user = ViewModelProviders.of(this).get(User.class);
-        init();
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!valid()) {
-                    DialogUtils.showProgress(RegisterActivity.this);
-                    registerWithEmailAndPassword(strEmail, strPassword);
-                }
-            }
-        });
-    }
 
-    private void init() {
-        etEmail = findViewById(R.id.et_email);
-        etPassword = findViewById(R.id.et_pwd);
-        etRePassword = findViewById(R.id.et_repwd);
-        btnRegister = findViewById(R.id.btn_register);
-        etPhone = findViewById(R.id.et_phone);
-
-        mAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference(Constant.TBL_USER);
     }
 
 
@@ -100,6 +79,27 @@ public class RegisterActivity extends BaseActivity {
 
 
         return false;
+    }
+
+    @Override
+    protected void initView() {
+        etEmail = findViewById(R.id.et_email);
+        etPassword = findViewById(R.id.et_pwd);
+        etRePassword = findViewById(R.id.et_repwd);
+        btnRegister = findViewById(R.id.btn_register);
+        etPhone = findViewById(R.id.et_phone);
+
+        mAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference(Constant.TBL_USER);
+
+
+        btnRegister.setOnClickListener(v -> {
+            if (!valid()) {
+                DialogUtils.showProgress(RegisterActivity.this);
+                registerWithEmailAndPassword(strEmail, strPassword);
+            }
+        });
     }
 
     @Override

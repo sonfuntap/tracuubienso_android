@@ -12,19 +12,19 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
-        android:padding="@dimen/margin_padding_0_8x"
+        android:layout_margin="@dimen/margin_padding_0_8x"
         app:layout_constraintTop_toTopOf="parent">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_search"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:paddingStart="@dimen/margin_padding_1_6x"
-            android:background="@color/colorPrimaryDark"
-            android:backgroundTint="@color/colorWhite"
+            android:background="@color/colorPrimary"
+
             android:hint="Nhập tên tỉnh"
-            android:shadowRadius="8dp"
+            android:textColorHint="@color/colorWhite"
             android:textSize="@dimen/text_size_14"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorWhite"
             />
     </LinearLayout>
 

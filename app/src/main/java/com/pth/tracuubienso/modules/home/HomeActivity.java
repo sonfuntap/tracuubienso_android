@@ -3,6 +3,7 @@ package com.pth.tracuubienso.modules.home;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.pth.tracuubienso.R;
 import com.pth.tracuubienso.base.BaseActivity;
 import com.pth.tracuubienso.base.BaseInterface;
 import com.pth.tracuubienso.models.User;
+import com.pth.tracuubienso.modules.add_province.AddProvinceActivity;
 
 public class HomeActivity extends BaseActivity implements BaseInterface, HomeAdapter.OnClickItemListener {
 
@@ -27,7 +29,9 @@ public class HomeActivity extends BaseActivity implements BaseInterface, HomeAda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        initView();
         getUserCurrent(this);
+
 
     }
 
@@ -37,6 +41,10 @@ public class HomeActivity extends BaseActivity implements BaseInterface, HomeAda
         recyclerView= findViewById(R.id.rcv);
         et_search= findViewById(R.id.et_search);
         floatingActionButton= findViewById(R.id.btnFloatingButton);
+
+        floatingActionButton.setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, AddProvinceActivity.class));
+        });
     }
 
     @Override

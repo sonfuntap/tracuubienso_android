@@ -8,10 +8,30 @@ import java.util.List;
 
 public class Province extends ViewModel {
     private String nameProvince;
-    private String codeProvince;
+    private List<String> codeProvinces = new ArrayList<>();
     private String information;
-    private District district;
+    private List<District> districts = new ArrayList<>();
 
+
+    public void addDistrict(District district) {
+        if (district != null) {
+            districts.add(district);
+        }
+    }
+
+    public void addCode(String code) {
+        if (code != null) {
+            codeProvinces.add(code);
+        }
+    }
+
+    public List<String> getCodeProvinces() {
+        return codeProvinces;
+    }
+
+    public void setCodeProvinces(List<String> codeProvinces) {
+        this.codeProvinces = codeProvinces;
+    }
 
     public String getNameProvince() {
         return nameProvince;
@@ -21,13 +41,6 @@ public class Province extends ViewModel {
         this.nameProvince = nameProvince;
     }
 
-    public String getCodeProvince() {
-        return codeProvince;
-    }
-
-    public void setCodeProvince(String codeProvince) {
-        this.codeProvince = codeProvince;
-    }
 
     public String getInformation() {
         return information;
@@ -37,17 +50,17 @@ public class Province extends ViewModel {
         this.information = information;
     }
 
-    public District getDistrict() {
-        return district;
+    public List<District> getDistricts() {
+        return districts;
     }
 
-    public void setDistrict(District district) {
-        this.district = district;
+    public void setDistricts(List<District> districts) {
+        this.districts = districts;
     }
 
     public static class District {
         private String nameDistrict;
-        private String  codeDistrict;
+        private String codeDistrict;
         private String information;
 
         public String getNameDistrict() {

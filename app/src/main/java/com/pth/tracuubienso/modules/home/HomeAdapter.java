@@ -38,7 +38,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
         Province province = provinces.get(position);
         holder.name.setText(province.getNameProvince());
-        holder.code.setText(province.getCodeProvince());
+        holder.code.setText(province.getCodeProvinces().get(0));
         holder.linearLayout.setOnClickListener(v -> onClickItemListener.onClick(v));
         holder.btnEdit.setOnClickListener(v -> onClickItemListener.onEditClick(v));
         holder.btnDelete.setOnClickListener(v -> onClickItemListener.onDeleteClick(v));

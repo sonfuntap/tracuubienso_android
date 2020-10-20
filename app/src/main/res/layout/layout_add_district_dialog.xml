@@ -7,54 +7,57 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Thêm mã huyện"
         android:background="@color/colorPrimary"
         android:gravity="center"
-        android:textSize="@dimen/text_size_20"
+        android:text="Thêm mã huyện"
         android:textColor="@color/colorWhite"
-        />
+        android:textSize="@dimen/text_size_20" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:weightSum="4">
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Tên huyện: "
 
-            android:gravity="center_vertical"
-            android:textSize="@dimen/text_size_14"
-            android:textColor="@color/colorBlack"
-            />
-        <EditText
-            android:layout_weight="3"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/et_name_district"/>
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/margin_padding_0_8x"
+            android:text="Tên huyện: "
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_size_14" />
+
+        <EditText
+            android:id="@+id/et_name_district"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:weightSum="4">
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Mã huyện: "
 
-            android:gravity="center_vertical"
-            android:textSize="@dimen/text_size_14"
-            android:textColor="@color/colorBlack"
-            />
-        <EditText
-            android:layout_weight="3"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/et_code_district"/>
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/margin_padding_0_8x"
+            android:text="Mã huyện: "
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_size_14" />
+
+        <EditText
+            android:id="@+id/et_code_district"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3" />
 
     </LinearLayout>
 
@@ -63,23 +66,24 @@
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:weightSum="2">
+
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Hủy"
-            android:textAllCaps="false"
-            android:id="@+id/btnCancel"
-            style="@style/Widget.MaterialComponents.Button.TextButton"/>
+            android:textAllCaps="false" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOK"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="OK"
-            android:textAllCaps="false"
-            android:id="@+id/btnOK"
-            style="@style/Widget.MaterialComponents.Button.TextButton"/>
+            android:textAllCaps="false" />
 
     </LinearLayout>
 

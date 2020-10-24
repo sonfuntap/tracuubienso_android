@@ -10,45 +10,55 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_padding_0_8x"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
-        android:layout_margin="@dimen/margin_padding_0_8x"
         app:layout_constraintTop_toTopOf="parent">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_search"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingStart="@dimen/margin_padding_1_6x"
             android:background="@color/colorPrimary"
-
             android:hint="Nhập tên tỉnh"
-            android:textColorHint="@color/colorWhite"
-            android:textSize="@dimen/text_size_14"
+
+            android:paddingStart="@dimen/margin_padding_1_6x"
             android:textColor="@color/colorWhite"
-            />
+            android:textColorHint="@color/colorWhite"
+            android:textSize="@dimen/text_size_16" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#BCBCBC"
+        android:gravity="center"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="4dp"
+        android:text="Danh sách tỉnh"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_size_14"
+        app:layout_constraintBottom_toTopOf="@id/rcv"
+        app:layout_constraintTop_toBottomOf="@+id/layout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/layout"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnFloatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="32dp"
         android:backgroundTint="@color/colorPrimary"
         android:src="@drawable/ic_baseline_add_24"
         android:tint="@android:color/white"
-        />
-
-
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.pth.tracuubienso.dialog;
+package com.pth.tracuubienso.modules.add_province;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,8 +20,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.pth.tracuubienso.R;
 import com.pth.tracuubienso.constant.Constant;
 import com.pth.tracuubienso.models.Province;
-import com.pth.tracuubienso.modules.add_province.DistrictAdapter;
-import com.pth.tracuubienso.modules.add_province.IAddProvince;
 
 import java.util.ArrayList;
 import java.util.List;

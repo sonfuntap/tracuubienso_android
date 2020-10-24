@@ -25,11 +25,10 @@ import com.pth.tracuubienso.models.User;
 public abstract class BaseActivity extends AppCompatActivity {
     private BaseInterface baseInterface;
 
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-
-
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     protected abstract void initView();
@@ -49,24 +48,4 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
-
-    protected void getUserCurrent(BaseInterface baseInterface) {
-        this.baseInterface=baseInterface;
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Constant.TBL_USER);
-        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.getValue(User.class);
-                        baseInterface.getCurrentUserSuccess(user);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        baseInterface.getCurrentUserFailed(databaseError.getMessage());
-                    }
-                });
-
-    }
-
 }

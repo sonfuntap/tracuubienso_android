@@ -18,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.pth.tracuubienso.R;
 import com.pth.tracuubienso.base.BaseActivity;
 import com.pth.tracuubienso.constant.Constant;
-import com.pth.tracuubienso.dialog.AddDistrictBottomDialog;
 import com.pth.tracuubienso.models.Province;
 
 import java.util.List;
@@ -82,6 +81,7 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince {
             addDistrictBottomDialog.show(getSupportFragmentManager(), AddDistrictBottomDialog.class.getSimpleName());
         });
     }
+
 
     private void addProvince(Province province) {
         databaseReferenceProvince.child(province.getNameProvince())

@@ -107,6 +107,7 @@ public class RegisterActivity extends BaseActivity {
         super.showAlertDialog(context, title, message);
     }
 
+
     private void registerWithEmailAndPassword(String strEmail, String strPassword) {
         mAuth.createUserWithEmailAndPassword(strEmail, strPassword)
                 .addOnSuccessListener(authResult -> {

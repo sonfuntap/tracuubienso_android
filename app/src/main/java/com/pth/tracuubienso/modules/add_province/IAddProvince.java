@@ -5,5 +5,5 @@ import com.pth.tracuubienso.models.Province;
 import java.util.List;
 
 public interface IAddProvince {
-    void passData(List<Province.District> districts);
+    void updateDistrictList(Province province);
 }

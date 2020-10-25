@@ -14,7 +14,7 @@ import com.pth.tracuubienso.base.BaseActivity;
 import com.pth.tracuubienso.dialog.DialogUtils;
 import com.pth.tracuubienso.modules.home.HomeActivity;
 import com.pth.tracuubienso.modules.register.RegisterActivity;
-import com.pth.tracuubienso.utils.AccountHelper;
+import com.pth.tracuubienso.utils.PreferenceHelper;
 
 public class LoginActivity extends BaseActivity {
     EditText et_email;
@@ -32,6 +32,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         init();
 
 
@@ -56,7 +57,7 @@ public class LoginActivity extends BaseActivity {
                 if (!valid()) {
                     DialogUtils.showProgress(LoginActivity.this);
                     loginWithEmail(et_email.getText().toString(), et_pwd.getText().toString());
-                    AccountHelper.getIns().saveInfoAccount(LoginActivity.this, et_email.getText().toString(), et_pwd.getText().toString());
+                    PreferenceHelper.getIns().saveInfoAccount(LoginActivity.this, et_email.getText().toString(), et_pwd.getText().toString());
                 }
             }
         });

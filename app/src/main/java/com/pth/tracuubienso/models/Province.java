@@ -3,10 +3,11 @@ package com.pth.tracuubienso.models;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Province extends ViewModel {
+public class Province extends ViewModel implements Serializable {
     private String nameProvince;
     private List<String> codeProvinces = new ArrayList<>();
     private String information;
@@ -58,7 +59,7 @@ public class Province extends ViewModel {
         this.districts = districts;
     }
 
-    public static class District {
+    public static class District implements Serializable{
         private String nameDistrict;
         private String codeDistrict;
         private String information;

@@ -12,11 +12,8 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.pth.tracuubienso.R;
 import com.pth.tracuubienso.constant.Constant;
 import com.pth.tracuubienso.models.Province;
@@ -33,10 +30,16 @@ public class AddDistrictBottomDialog extends BottomSheetDialogFragment {
     Province.District district;
     List<Province.District> districts;
     IAddProvince iAddProvince;
+    int index = 0;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     public AddDistrictBottomDialog(Province province, IAddProvince iAddProvince) {
         this.province = province;
-        this.iAddProvince= iAddProvince;
+        this.iAddProvince = iAddProvince;
     }
 
     @Nullable
@@ -51,19 +54,34 @@ public class AddDistrictBottomDialog extends BottomSheetDialogFragment {
         districts = new ArrayList<>();
 
         btnOK.setOnClickListener(v -> {
+            String code = et_code_district.getText().toString();
+            String name = et_name_district.getText().toString();
+            district.setCodeDistrict(code);
+            district.setNameDistrict(name);
+            if (!code.equals("") && !name.equals("")) {
+                province.addDistrict(district);
+                if (getArguments() != null) {
+                    updateProvince(district);
+                } else {
+                    addProvince(province);
+                }
 
-            if (!et_code_district.getText().toString().isEmpty()) {
-                district.setCodeDistrict(et_code_district.getText().toString());
-            }
-            if (!et_name_district.getText().toString().isEmpty()) {
-                district.setNameDistrict(et_name_district.getText().toString());
-            }
+            } else
+                Toast.makeText(getContext(), "Tên huyện và code không được để trống !", Toast.LENGTH_SHORT).show();
 
-            province.addDistrict(district);
-
-            addProvince(province);
         });
         btnCancel.setOnClickListener(v -> dismiss());
+
+        if (getArguments() != null) {
+            index = getArguments().getInt("index");
+            district = (Province.District) getArguments().getSerializable(Constant.DISTRICT_OBJ);
+            if (district != null) {
+                et_code_district.setText(district.getCodeDistrict());
+                et_name_district.setText(district.getNameDistrict());
+            }
+
+        }
+
         return view;
     }
 
@@ -72,6 +90,7 @@ public class AddDistrictBottomDialog extends BottomSheetDialogFragment {
         databaseReference.child(province.getNameProvince())
                 .setValue(province)
                 .addOnSuccessListener(aVoid -> {
+                    iAddProvince.updateDistrictList(province);
                     Toast.makeText(getContext(), "Cập  nhật thành công", Toast.LENGTH_SHORT).show();
                     dismiss();
                 }).addOnFailureListener(e -> {
@@ -79,29 +98,21 @@ public class AddDistrictBottomDialog extends BottomSheetDialogFragment {
                     "Lỗi: " + e.getMessage() + "\n Vui lòng kiểm tra lại", Toast.LENGTH_SHORT).show();
         });
 
-        getDataDistrict(province, databaseReference);
     }
 
-    void getDataDistrict(Province province, DatabaseReference databaseReference) {
+    private void updateProvince(Province.District district) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Constant.TBL_PROVINCE);
         databaseReference.child(province.getNameProvince())
                 .child("districts")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                            districts.add(postSnapshot.getValue(Province.District.class));
-                        }
-                        iAddProvince.passData(districts);
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                .child(String.valueOf(index))
+                .setValue(district)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getContext(), "Cập  nhật thành công", Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }).addOnFailureListener(e -> {
+            Toast.makeText(getContext(),
+                    "Lỗi: " + e.getMessage() + "\n Vui lòng kiểm tra lại", Toast.LENGTH_SHORT).show();
+        });
     }
-
 
 }

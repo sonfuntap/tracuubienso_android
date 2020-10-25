@@ -5,11 +5,16 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +31,10 @@ import com.pth.tracuubienso.base.BaseActivity;
 import com.pth.tracuubienso.constant.Constant;
 import com.pth.tracuubienso.models.Province;
 import com.pth.tracuubienso.models.User;
+import com.pth.tracuubienso.modules.HistoryActivity;
 import com.pth.tracuubienso.modules.add_province.AddProvinceActivity;
+import com.pth.tracuubienso.modules.login.LoginActivity;
+import com.pth.tracuubienso.utils.PreferenceHelper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,17 +47,24 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
     TextInputEditText et_search;
     FloatingActionButton floatingActionButton;
     User currentUser;
+    ImageButton btn_menu;
 
     HomeAdapter homeAdapter;
     List<Province> provinces;
     List<Province> provincesSearch;
+    List<Province> provincesHistory;
 
     DatabaseReference databaseReferenceProvince;
+    LinearLayout layoutSearch;
+    boolean isShowSearch = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        hideKeyboard(this);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
     }
 
@@ -58,10 +73,18 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
     protected void initView() {
         recyclerView = findViewById(R.id.rcv);
         et_search = findViewById(R.id.et_search);
+        btn_menu = findViewById(R.id.btn_menu);
+        layoutSearch = findViewById(R.id.layout);
+
+
+        layoutSearch.setVisibility(View.GONE);
+
         floatingActionButton = findViewById(R.id.btnFloatingButton);
         provinces = new ArrayList<>();
         provincesSearch = new ArrayList<>();
+        provincesHistory = new ArrayList<>();
         databaseReferenceProvince = FirebaseDatabase.getInstance().getReference(Constant.TBL_PROVINCE);
+
 
         if (currentUser.isAdmin()) {
             floatingActionButton.setVisibility(View.VISIBLE);
@@ -69,9 +92,19 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
             floatingActionButton.setVisibility(View.GONE);
         }
 
+        btn_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        floatingActionButton.setOnClickListener(v ->
-                startActivity(new Intent(HomeActivity.this, AddProvinceActivity.class)));
+            }
+        });
+
+        floatingActionButton.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, AddProvinceActivity.class);
+            intent.putExtra(Constant.TYPE_INTENT, Constant.TYPE_INTENT_ADD);
+            intent.putExtra(Constant.IS_ADMIN, currentUser.isAdmin());
+            startActivity(intent);
+        });
 
         et_search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -102,6 +135,45 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
         });
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home_navigation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                isShowSearch = !isShowSearch;
+                if (isShowSearch) {
+                    layoutSearch.setVisibility(View.VISIBLE);
+                } else layoutSearch.setVisibility(View.GONE);
+                return true;
+            case R.id.action_history:
+                showHistory();
+                return true;
+            case R.id.action_log_out:
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    private void showHistory() {
+        startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+    }
+
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+        finish();
+    }
+
     private void getUserCurrent() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Constant.TBL_USER);
         databaseReference.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
@@ -121,6 +193,7 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
     }
 
     void getDataProvinces(DatabaseReference databaseReference) {
+        provinces.clear();
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -210,13 +283,20 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
     protected void onResume() {
         super.onResume();
         if (homeAdapter != null) {
+            getDataProvinces(databaseReferenceProvince);
             homeAdapter.notifyDataSetChanged();
         } else getUserCurrent();
     }
 
     @Override
     public void onClick(View view, Province province) {
-        Toast.makeText(this, province.getNameProvince(), Toast.LENGTH_SHORT).show();
+        provincesHistory.add(province);
+        PreferenceHelper.getIns().setProvinceList(this, "prosvinces", provincesHistory);
+        Intent intent = new Intent(HomeActivity.this, AddProvinceActivity.class);
+        intent.putExtra(Constant.TYPE_INTENT, Constant.TYPE_INTENT_EDIT);
+        intent.putExtra(Constant.PROVINCE_OBJ, province);
+        intent.putExtra(Constant.IS_ADMIN, currentUser.isAdmin());
+        startActivity(intent);
     }
 
     @Override
@@ -229,12 +309,5 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
                 .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
-
-    }
-
-    @Override
-    public void onEditClick(View view, Province province) {
-
-        Toast.makeText(this, "Edit" + province.getNameProvince(), Toast.LENGTH_SHORT).show();
     }
 }

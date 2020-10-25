@@ -92,15 +92,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         holder.code.setText(getCode(province.getCodeProvinces()));
         Province finalProvince = province;
         holder.linearLayout.setOnClickListener(v -> onClickItemListener.onClick(v, finalProvince));
-        holder.btnEdit.setOnClickListener(v -> onClickItemListener.onEditClick(v, finalProvince));
         holder.btnDelete.setOnClickListener(v -> onClickItemListener.onDeleteClick(v, finalProvince));
 
         if (isAdmin) {
             holder.btnDelete.setVisibility(View.VISIBLE);
-            holder.btnEdit.setVisibility(View.VISIBLE);
         } else {
             holder.btnDelete.setVisibility(View.GONE);
-            holder.btnEdit.setVisibility(View.GONE);
         }
     }
 
@@ -119,7 +116,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         TextView code;
         TextView name;
         LinearLayout linearLayout;
-        MaterialButton btnDelete, btnEdit;
+        MaterialButton btnDelete;
 
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -127,16 +124,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             code = itemView.findViewById(R.id.tvCode);
             name = itemView.findViewById(R.id.tvName);
             btnDelete = itemView.findViewById(R.id.btnDelete);
-            btnEdit = itemView.findViewById(R.id.btnEdit);
         }
     }
 
-    interface OnClickItemListener {
+    public interface OnClickItemListener {
         void onClick(View view, Province province);
 
         void onDeleteClick(View view, Province province);
-
-        void onEditClick(View view, Province province);
-
     }
 }

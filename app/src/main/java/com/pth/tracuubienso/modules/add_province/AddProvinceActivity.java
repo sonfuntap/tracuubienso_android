@@ -1,11 +1,15 @@
 package com.pth.tracuubienso.modules.add_province;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,9 +24,12 @@ import com.pth.tracuubienso.base.BaseActivity;
 import com.pth.tracuubienso.constant.Constant;
 import com.pth.tracuubienso.models.Province;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
-public class AddProvinceActivity extends BaseActivity implements IAddProvince {
+public class AddProvinceActivity extends BaseActivity implements IAddProvince, DistrictAdapter.OnClickItemListener {
     MaterialButton btn_add_district;
     RecyclerView rcv_district;
     EditText etName;
@@ -30,18 +37,102 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince {
     ImageButton btnBack;
     ImageButton btnDone;
 
+    MaterialButton btnAddProVince;
+    TextView tvTitle;
+    TextView tvDistrictList;
+
+    List<Province.District> districts;
+
     DatabaseReference databaseReferenceProvince;
 
     Province province;
 
     DistrictAdapter districtAdapter;
 
+    String typeView = "";
+
+    boolean isAdmin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+        hideKeyboard(this);
         initView();
+        getPassData();
+    }
+
+    void getPassData() {
+        if (getIntent() != null) {
+            if (getIntent().hasExtra(Constant.IS_ADMIN)) {
+                isAdmin = getIntent().getBooleanExtra(Constant.IS_ADMIN, false);
+            }
+
+            if (getIntent().hasExtra(Constant.TYPE_INTENT)) {
+                typeView = getIntent().getStringExtra(Constant.TYPE_INTENT);
+            }
+            if (getIntent().hasExtra(Constant.PROVINCE_OBJ)) {
+                province = (Province) getIntent().getSerializableExtra(Constant.PROVINCE_OBJ);
+            }
+
+            districts = Objects.requireNonNull(province).getDistricts();
+            setDataView(province, typeView);
+        }
+    }
+
+    String getCode(List<String> strings) {
+        StringBuilder code = new StringBuilder();
+
+        for (String s : strings) {
+            code.append(s).append(", ");
+        }
+
+        return code.substring(0, code.length() - 2);
+    }
+
+    void setDataView(Province province, String typeView) {
+        if (isAdmin) {
+            btn_add_district.setVisibility(View.VISIBLE);
+            btnAddProVince.setVisibility(View.VISIBLE);
+            btnAddProVince.setEnabled(true);
+            btnDone.setVisibility(View.GONE);
+
+
+            if (typeView.equals(Constant.TYPE_INTENT_EDIT)) {
+                etName.setEnabled(true);
+                etCode.setEnabled(true);
+                rcv_district.setEnabled(true);
+
+                tvTitle.setText(province.getNameProvince());
+                etName.setText(province.getNameProvince());
+                etCode.setText(getCode(province.getCodeProvinces()));
+                initRcv(districts);
+            } else if (typeView.equals(Constant.TYPE_INTENT_ADD)) {
+                etName.setEnabled(true);
+                etCode.setEnabled(true);
+                rcv_district.setEnabled(true);
+                etName.setText("");
+                etCode.setText("");
+                initRcv(new ArrayList<>());
+            }
+
+        } else {
+            btn_add_district.setVisibility(View.GONE);
+            btnAddProVince.setVisibility(View.GONE);
+            btnDone.setVisibility(View.GONE);
+
+            etName.setEnabled(false);
+            etCode.setEnabled(false);
+
+            tvTitle.setText(province.getNameProvince());
+            rcv_district.setEnabled(false);
+            etName.setText(province.getNameProvince());
+            etCode.setText(getCode(province.getCodeProvinces()));
+            initRcv(districts);
+        }
+
+
     }
 
     @Override
@@ -52,11 +143,19 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince {
         etCode = findViewById(R.id.etCode);
         btnBack = findViewById(R.id.btnBack);
         btnDone = findViewById(R.id.btnDone);
+        btnAddProVince = findViewById(R.id.addProvince);
+        tvTitle = findViewById(R.id.tvTitle);
+        tvDistrictList = findViewById(R.id.tvListDistrict);
 
         databaseReferenceProvince = FirebaseDatabase.getInstance().getReference(Constant.TBL_PROVINCE);
         province = new Province();
+        districts = new ArrayList<>();
 
         btnDone.setOnClickListener(v -> {
+
+        });
+
+        btnAddProVince.setOnClickListener(v -> {
 
             if (!etCode.getText().toString().isEmpty()) {
                 province.addCode(etCode.getText().toString());
@@ -77,7 +176,7 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince {
         });
 
         btn_add_district.setOnClickListener(v -> {
-            AddDistrictBottomDialog addDistrictBottomDialog = new AddDistrictBottomDialog(province, this::initRcv);
+            AddDistrictBottomDialog addDistrictBottomDialog = new AddDistrictBottomDialog(province, this);
             addDistrictBottomDialog.show(getSupportFragmentManager(), AddDistrictBottomDialog.class.getSimpleName());
         });
     }
@@ -88,10 +187,6 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince {
                 .setValue(province)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(AddProvinceActivity.this, "Cập  nhật thành công", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(AddProvinceActivity.this, HomeActivity.class);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    startActivity(intent);
-//                    finish();
                 }).addOnFailureListener(e -> {
             Toast.makeText(AddProvinceActivity.this,
                     "Lỗi: " + e.getMessage() + "\n Vui lòng kiểm tra lại", Toast.LENGTH_SHORT).show();
@@ -99,33 +194,103 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince {
     }
 
     void initRcv(List<Province.District> districts) {
+/*        if (districtAdapter != null) {
+                districtAdapter.notifyDataSetChanged();
+        } else {
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            rcv_district.setLayoutManager(layoutManager);
+            districtAdapter = new DistrictAdapter(districts, isAdmin, this);
+            rcv_district.setAdapter(districtAdapter);
+        }*/
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rcv_district.setLayoutManager(layoutManager);
-        districtAdapter = new DistrictAdapter(districts);
+        districtAdapter = new DistrictAdapter(districts, isAdmin, this);
         rcv_district.setAdapter(districtAdapter);
-        districtAdapter.notifyDataSetChanged();
-
     }
 
-    void getDataDistrict(Province province) {
+    public void deleteDistrict(Province.District district) {
         databaseReferenceProvince.child(province.getNameProvince())
                 .child("districts")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                List<Province.District> districts= snapshot.getValue(Province.District);
-
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            Province.District d = postSnapshot.getValue(Province.District.class);
+                            if (district.getNameDistrict().toLowerCase().equals(Objects.requireNonNull(d).getNameDistrict().toLowerCase())) {
+                                postSnapshot.getRef().removeValue();
+                            }
+                        }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        showAlertDialog(AddProvinceActivity.this, "Thông báo", error.getMessage());
                     }
                 });
     }
 
     @Override
-    public void passData(List<Province.District> districts) {
-        initRcv(districts);
+    public void updateDistrictList(Province provinceResponse) {
+        getDataDistrict(provinceResponse, databaseReferenceProvince);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(AddProvinceActivity.class.getSimpleName(), "on Resume");
+
+        getDataDistrict(province, databaseReferenceProvince);
+    }
+
+    @Override
+    public void onDeleteClick(View view, Province.District district) {
+
+
+        new AlertDialog.Builder(AddProvinceActivity.this)
+                .setTitle("Thông báo")
+                .setMessage("Bạn có chắc chắn muốn xóa " + district.getNameDistrict())
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> deleteDistrict(district))
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    @Override
+    public void onEditClick(View view, Province.District district) {
+        editDistrict(district);
+    }
+
+    private void editDistrict(Province.District district) {
+        AddDistrictBottomDialog addDistrictBottomDialog = new AddDistrictBottomDialog(province, this);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constant.DISTRICT_OBJ, district);
+        bundle.putInt("index", districts.indexOf(district));
+        addDistrictBottomDialog.setArguments(bundle);
+        addDistrictBottomDialog.show(getSupportFragmentManager(), AddDistrictBottomDialog.class.getSimpleName());
+    }
+
+    void getDataDistrict(Province province, DatabaseReference databaseReference) {
+        if(province.getNameProvince()!=null){
+            databaseReference.child(province.getNameProvince())
+                    .child("districts")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            districts.clear();
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                districts.add(postSnapshot.getValue(Province.District.class));
+                            }
+                            initRcv(districts);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+        }
+
     }
 }

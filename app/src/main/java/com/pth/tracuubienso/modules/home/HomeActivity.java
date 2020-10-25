@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.pth.tracuubienso.R;
 import com.pth.tracuubienso.base.BaseActivity;
 import com.pth.tracuubienso.constant.Constant;
+import com.pth.tracuubienso.dialog.DialogUtils;
 import com.pth.tracuubienso.models.Province;
 import com.pth.tracuubienso.models.User;
 import com.pth.tracuubienso.modules.HistoryActivity;
@@ -175,6 +176,7 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
     }
 
     private void getUserCurrent() {
+        DialogUtils.showProgress(this);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Constant.TBL_USER);
         databaseReference.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -188,6 +190,7 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Log.e(HomeActivity.class.getSimpleName(), databaseError.getMessage());
+                        DialogUtils.hideProgress();
                     }
                 });
     }
@@ -202,11 +205,12 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
                     provinces.add(postSnapshot.getValue(Province.class));
                     setDataAdapter(provinces);
                 }
+                DialogUtils.hideProgress();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                DialogUtils.hideProgress();
             }
         });
     }

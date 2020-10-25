@@ -3,6 +3,7 @@ package com.pth.tracuubienso.modules.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -15,6 +16,8 @@ import com.pth.tracuubienso.dialog.DialogUtils;
 import com.pth.tracuubienso.modules.home.HomeActivity;
 import com.pth.tracuubienso.modules.register.RegisterActivity;
 import com.pth.tracuubienso.utils.PreferenceHelper;
+
+import java.util.HashMap;
 
 public class LoginActivity extends BaseActivity {
     EditText et_email;
@@ -34,22 +37,28 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
         init();
+        DialogUtils.showProgress(this);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            DialogUtils.hideProgress();
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            finish();
+        } else DialogUtils.hideProgress();
+
+/*
+        if (PreferenceHelper.getIns().getInfoAccount(this) != null) {
+
+            Log.d("LoginFragment", "account exist");
+            HashMap<String, String> hashMap = PreferenceHelper.getIns().getInfoAccount(this);
+            et_email.setText(hashMap.get("email"));
+            et_pwd.setText(hashMap.get("password"));
+            if (!valid()) {
+                DialogUtils.showProgress(LoginActivity.this);
+                loginWithEmail(et_email.getText().toString(), et_pwd.getText().toString());
+                PreferenceHelper.getIns().saveInfoAccount(LoginActivity.this, et_email.getText().toString(), et_pwd.getText().toString());
+            }
 
 
-//        if (AccountHelper.getIns().getInfoAccount(this) != null) {
-//
-//            Log.d("LoginFragment", "account exist");
-//            HashMap<String, String> hashMap = AccountHelper.getIns().getInfoAccount(this);
-//            et_email.setText(hashMap.get("email"));
-//            et_pwd.setText(hashMap.get("password"));
-//            if (!valid()) {
-//                DialogUtils.showProgress(LoginActivity.this);
-//                loginWithEmail(et_email.getText().toString(), et_pwd.getText().toString());
-//                AccountHelper.getIns().saveInfoAccount(LoginActivity.this, et_email.getText().toString(), et_pwd.getText().toString());
-//            }
-//
-//
-//        } else Log.d("LoginFragment", "account is null");
+        } else Log.d("LoginFragment", "account is null");*/
 
         btnLoginWithEmail.setOnClickListener(new View.OnClickListener() {
             @Override

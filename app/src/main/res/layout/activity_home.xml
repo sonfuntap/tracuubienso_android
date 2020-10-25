@@ -61,9 +61,10 @@
         android:layout_marginTop="4dp"
         android:background="#BCBCBC"
         android:gravity="center"
-        android:text="Danh sách tỉnh"
+        android:text="Danh sách biển số xe"
         android:textColor="@color/colorBlack"
-        android:textSize="@dimen/text_size_14"
+        android:textSize="@dimen/text_size_16"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/rcv"
         app:layout_constraintTop_toBottomOf="@+id/layout" />
 

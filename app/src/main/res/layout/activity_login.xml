@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimary"
     tools:context=".modules.login.LoginActivity">
 
 
     <TextView
+        android:id="@+id/tvLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -20,6 +21,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_3_2x"
+        android:src="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLogin" />
 
 
     <LinearLayout
@@ -66,7 +76,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/text_size_16" />
         </LinearLayout>
 
@@ -102,7 +112,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 android:inputType="textPassword"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/text_size_14" />
         </LinearLayout>
 

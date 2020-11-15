@@ -3,7 +3,9 @@ package com.pth.tracuubienso.models;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class User extends ViewModel {
+import java.io.Serializable;
+
+public class User extends ViewModel implements Serializable {
     private String isdUser;
     private String email;
     private String pass;

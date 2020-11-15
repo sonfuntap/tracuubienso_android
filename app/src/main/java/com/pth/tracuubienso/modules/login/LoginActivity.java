@@ -85,7 +85,6 @@ public class LoginActivity extends BaseActivity {
         et_pwd = findViewById(R.id.et_pwd);
         btnLoginWithEmail = findViewById(R.id.btnLoginWithEmail);
         btnRegister = findViewById(R.id.btnRegister);
-        btnForgotPwd = findViewById(R.id.btnForgotPwd);
 
         mAuth = FirebaseAuth.getInstance();
 

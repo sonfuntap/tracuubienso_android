@@ -87,11 +87,21 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
         databaseReferenceProvince = FirebaseDatabase.getInstance().getReference(Constant.TBL_PROVINCE);
 
 
-        if (currentUser.isAdmin()) {
-            floatingActionButton.setVisibility(View.VISIBLE);
-        } else {
-            floatingActionButton.setVisibility(View.GONE);
+        if(getIntent()!=null){
+            if(getIntent().hasExtra("User")){
+                currentUser= (User) getIntent().getSerializableExtra("User");
+            }
         }
+
+
+        if(currentUser!=null){
+            if (currentUser.isAdmin()) {
+                floatingActionButton.setVisibility(View.VISIBLE);
+            } else {
+                floatingActionButton.setVisibility(View.GONE);
+            }
+        }
+
 
         btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,6 +195,7 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
                         currentUser = dataSnapshot.getValue(User.class);
                         initView();
                         getDataProvinces(databaseReferenceProvince);
+                        DialogUtils.hideProgress();
                     }
 
                     @Override
@@ -301,6 +312,7 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
         intent.putExtra(Constant.PROVINCE_OBJ, province);
         intent.putExtra(Constant.IS_ADMIN, currentUser.isAdmin());
         startActivity(intent);
+
     }
 
     @Override

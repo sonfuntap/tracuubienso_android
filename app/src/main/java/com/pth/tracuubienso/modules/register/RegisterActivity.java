@@ -41,7 +41,7 @@ public class RegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initView();
-        user = ViewModelProviders.of(this).get(User.class);
+
 
     }
 
@@ -115,8 +115,7 @@ public class RegisterActivity extends BaseActivity {
                     updateDataToServer();
                     DialogUtils.hideProgress();
 
-                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
-                    finish();
+
 
 
                 }).addOnFailureListener(e -> {
@@ -126,6 +125,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void updateDataToServer() {
+        user= new User();
         user.setAdmin(false);
         user.setEmail(etEmail.getText().toString());
         user.setPhone(etPhone.getText().toString());
@@ -135,7 +135,12 @@ public class RegisterActivity extends BaseActivity {
                 .setValue(user)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(RegisterActivity.this, "Cập nhật  thông tin thành công !", Toast.LENGTH_SHORT).show();
-                    user.setUserCurrent(user);
+
+
+                    Intent intent= new Intent(RegisterActivity.this, HomeActivity.class);
+                    intent.putExtra("User", user);
+                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+                    finish();
 
                 }).addOnFailureListener(e -> {
 

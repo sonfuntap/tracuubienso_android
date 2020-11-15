@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF"
     android:orientation="vertical"
     tools:context=".modules.add_province.AddProvinceActivity">
 
@@ -87,9 +88,9 @@
             android:layout_marginStart="@dimen/margin_padding_0_8x"
             android:background="@drawable/bg_name"
             android:gravity="center_vertical"
-            app:layout_constraintStart_toEndOf="@+id/layoutCode"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/layoutCode"
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
@@ -111,14 +112,43 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
+            android:layout_marginVertical="@dimen/margin_padding_0_8x"
+            android:layout_weight="1"
+            android:text="Thêm biển số xe"
+            android:textAllCaps="false" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/remove"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
+            android:layout_marginVertical="@dimen/margin_padding_0_8x"
+            android:layout_weight="1"
+            android:text="Xóa biển số xe"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/addProvince"
+        android:id="@+id/updateProvince"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
         android:layout_marginVertical="@dimen/margin_padding_0_8x"
         android:text="Cập nhật tỉnh"
         android:textAllCaps="false" />
+
     <TextView
         android:id="@+id/tvListDistrict"
         android:layout_width="match_parent"

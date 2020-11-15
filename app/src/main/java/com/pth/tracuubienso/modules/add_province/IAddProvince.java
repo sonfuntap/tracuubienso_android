@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface IAddProvince {
     void updateDistrictList(Province province);
+    void updateProvince(Province province);
+
+
 }

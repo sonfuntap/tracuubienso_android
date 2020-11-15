@@ -25,7 +25,6 @@ import com.pth.tracuubienso.constant.Constant;
 import com.pth.tracuubienso.models.Province;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,7 +36,9 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
     ImageButton btnBack;
     ImageButton btnDone;
 
-    MaterialButton btnAddProVince;
+    MaterialButton btnUpdateProVince;
+    MaterialButton btnAddBXS;
+    MaterialButton btnRemoveBXS;
     TextView tvTitle;
     TextView tvDistrictList;
 
@@ -46,6 +47,9 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
     DatabaseReference databaseReferenceProvince;
 
     Province province;
+
+
+    Province provinceUpdate;
 
     DistrictAdapter districtAdapter;
 
@@ -74,6 +78,7 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
             }
             if (getIntent().hasExtra(Constant.PROVINCE_OBJ)) {
                 province = (Province) getIntent().getSerializableExtra(Constant.PROVINCE_OBJ);
+
             }
 
             districts = Objects.requireNonNull(province).getDistricts();
@@ -94,8 +99,8 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
     void setDataView(Province province, String typeView) {
         if (isAdmin) {
             btn_add_district.setVisibility(View.VISIBLE);
-            btnAddProVince.setVisibility(View.VISIBLE);
-            btnAddProVince.setEnabled(true);
+            btnUpdateProVince.setVisibility(View.VISIBLE);
+            btnUpdateProVince.setEnabled(true);
             btnDone.setVisibility(View.GONE);
 
 
@@ -103,7 +108,9 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
                 etName.setEnabled(true);
                 etCode.setEnabled(true);
                 rcv_district.setEnabled(true);
-
+                btnUpdateProVince.setVisibility(View.GONE);
+                btnAddBXS.setVisibility(View.VISIBLE);
+                btnRemoveBXS.setVisibility(View.VISIBLE);
                 tvTitle.setText(province.getNameProvince());
                 etName.setText(province.getNameProvince());
                 etCode.setText(getCode(province.getCodeProvinces()));
@@ -114,13 +121,18 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
                 rcv_district.setEnabled(true);
                 etName.setText("");
                 etCode.setText("");
+                btnUpdateProVince.setVisibility(View.VISIBLE);
+                btnAddBXS.setVisibility(View.GONE);
+                btnRemoveBXS.setVisibility(View.GONE);
                 initRcv(new ArrayList<>());
             }
 
         } else {
             btn_add_district.setVisibility(View.GONE);
-            btnAddProVince.setVisibility(View.GONE);
+            btnUpdateProVince.setVisibility(View.GONE);
             btnDone.setVisibility(View.GONE);
+            btnAddBXS.setVisibility(View.GONE);
+            btnRemoveBXS.setVisibility(View.GONE);
 
             etName.setEnabled(false);
             etCode.setEnabled(false);
@@ -143,9 +155,12 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
         etCode = findViewById(R.id.etCode);
         btnBack = findViewById(R.id.btnBack);
         btnDone = findViewById(R.id.btnDone);
-        btnAddProVince = findViewById(R.id.addProvince);
+        btnUpdateProVince = findViewById(R.id.updateProvince);
         tvTitle = findViewById(R.id.tvTitle);
         tvDistrictList = findViewById(R.id.tvListDistrict);
+        btnAddBXS = findViewById(R.id.add);
+        btnRemoveBXS = findViewById(R.id.remove);
+
 
         databaseReferenceProvince = FirebaseDatabase.getInstance().getReference(Constant.TBL_PROVINCE);
         province = new Province();
@@ -155,7 +170,7 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
 
         });
 
-        btnAddProVince.setOnClickListener(v -> {
+        btnUpdateProVince.setOnClickListener(v -> {
 
             if (!etCode.getText().toString().isEmpty()) {
                 province.addCode(etCode.getText().toString());
@@ -169,6 +184,30 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
             } else
                 Toast.makeText(AddProvinceActivity.this, "Kiểm tra lại thông tin tỉnh !", Toast.LENGTH_SHORT).show();
 
+        });
+
+        btnAddBXS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AddBxsDilalog(province).show(getSupportFragmentManager(), AddBxsDilalog.class.getSimpleName());
+            }
+        });
+
+        btnRemoveBXS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new RemoveBxsDilalog(province, new IAddProvince() {
+                    @Override
+                    public void updateDistrictList(Province province) {
+
+                    }
+
+                    @Override
+                    public void updateProvince(Province province) {
+                        getDataProvince(databaseReferenceProvince);
+                    }
+                }).show(getSupportFragmentManager(), RemoveBxsDilalog.class.getSimpleName());
+            }
         });
 
         btnBack.setOnClickListener(v -> {
@@ -236,6 +275,11 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
     }
 
     @Override
+    public void updateProvince(Province province) {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         Log.d(AddProvinceActivity.class.getSimpleName(), "on Resume");
@@ -271,8 +315,29 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
         addDistrictBottomDialog.show(getSupportFragmentManager(), AddDistrictBottomDialog.class.getSimpleName());
     }
 
+
+    void getDataProvince(DatabaseReference databaseReference) {
+
+        databaseReference.child(province.getNameProvince())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        provinceUpdate = new Province();
+                        provinceUpdate = snapshot.getValue(Province.class);
+                        etCode.setText(getCode(provinceUpdate.getCodeProvinces()));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+
     void getDataDistrict(Province province, DatabaseReference databaseReference) {
-        if(province.getNameProvince()!=null){
+        if (province.getNameProvince() != null) {
             databaseReference.child(province.getNameProvince())
                     .child("districts")
                     .addValueEventListener(new ValueEventListener() {

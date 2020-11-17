@@ -118,6 +118,7 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
                 tvTitle.setText(province.getNameProvince());
                 etName.setText(province.getNameProvince());
                 etCode.setText(getCode(province.getCodeProvinces()));
+                etInfoProvince.setText(province.getInformation());
                 initRcv(districts);
             } else if (typeView.equals(Constant.TYPE_INTENT_ADD)) {
                 etName.setEnabled(true);
@@ -147,6 +148,7 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
             rcv_district.setEnabled(false);
             etName.setText(province.getNameProvince());
             etCode.setText(getCode(province.getCodeProvinces()));
+            etInfoProvince.setText(province.getInformation());
             initRcv(districts);
         }
 

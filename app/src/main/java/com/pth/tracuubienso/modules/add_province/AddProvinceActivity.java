@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,12 +43,14 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
     TextView tvTitle;
     TextView tvDistrictList;
 
+    TextInputEditText etInfoProvince;
+    TextView tvInfoProvince;
+
     List<Province.District> districts;
 
     DatabaseReference databaseReferenceProvince;
 
     Province province;
-
 
     Province provinceUpdate;
 
@@ -107,6 +110,7 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
             if (typeView.equals(Constant.TYPE_INTENT_EDIT)) {
                 etName.setEnabled(true);
                 etCode.setEnabled(true);
+                etInfoProvince.setEnabled(true);
                 rcv_district.setEnabled(true);
                 btnUpdateProVince.setVisibility(View.GONE);
                 btnAddBXS.setVisibility(View.VISIBLE);
@@ -118,6 +122,7 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
             } else if (typeView.equals(Constant.TYPE_INTENT_ADD)) {
                 etName.setEnabled(true);
                 etCode.setEnabled(true);
+                etInfoProvince.setEnabled(true);
                 rcv_district.setEnabled(true);
                 etName.setText("");
                 etCode.setText("");
@@ -136,6 +141,7 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
 
             etName.setEnabled(false);
             etCode.setEnabled(false);
+            etInfoProvince.setEnabled(false);
 
             tvTitle.setText(province.getNameProvince());
             rcv_district.setEnabled(false);
@@ -160,6 +166,8 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
         tvDistrictList = findViewById(R.id.tvListDistrict);
         btnAddBXS = findViewById(R.id.add);
         btnRemoveBXS = findViewById(R.id.remove);
+        tvInfoProvince= findViewById(R.id.tvInfoProvince);
+        etInfoProvince= findViewById(R.id.etInfoProvince);
 
 
         databaseReferenceProvince = FirebaseDatabase.getInstance().getReference(Constant.TBL_PROVINCE);
@@ -172,11 +180,15 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
 
         btnUpdateProVince.setOnClickListener(v -> {
 
-            if (!etCode.getText().toString().isEmpty()) {
+            if (!etCode.getText().toString().equals("")) {
                 province.addCode(etCode.getText().toString());
             }
-            if (!etName.getText().toString().isEmpty()) {
+            if (!etName.getText().toString().equals("")) {
                 province.setNameProvince(etName.getText().toString());
+            }
+
+            if(!etInfoProvince.getText().toString().equals("")){
+                province.setNameProvince(etInfoProvince.getText().toString());
             }
 
             if (province != null) {
@@ -233,15 +245,6 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
     }
 
     void initRcv(List<Province.District> districts) {
-/*        if (districtAdapter != null) {
-                districtAdapter.notifyDataSetChanged();
-        } else {
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-            rcv_district.setLayoutManager(layoutManager);
-            districtAdapter = new DistrictAdapter(districts, isAdmin, this);
-            rcv_district.setAdapter(districtAdapter);
-        }*/
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rcv_district.setLayoutManager(layoutManager);
         districtAdapter = new DistrictAdapter(districts, isAdmin, this);

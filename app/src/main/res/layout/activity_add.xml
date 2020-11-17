@@ -1,188 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="#FFF"
-    android:orientation="vertical"
-    tools:context=".modules.add_province.AddProvinceActivity">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="@dimen/margin_padding_0_8x"
-            android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/ic_baseline_arrow_back_ios_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Thông tin tỉnh"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_size_20"
-            android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/btnDone"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/ic_baseline_check_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
-        android:layout_marginTop="@dimen/margin_padding_1_6x"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/layoutCode"
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:background="@drawable/bg_number"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <EditText
-                android:id="@+id/etCode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="Nhập code"
-                android:text="29"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutName"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="@dimen/margin_padding_0_8x"
-            android:background="@drawable/bg_name"
-            android:gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/layoutCode"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <EditText
-                android:id="@+id/etName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_padding_1_6x"
-                android:gravity="center"
-                android:hint="Nhập tên tỉnh"
-                android:text="Hà Nội"
-                android:textColor="@color/colorPrimary"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="#FFF"
+        android:orientation="vertical"
+        tools:context=".modules.add_province.AddProvinceActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="@dimen/margin_padding_0_8x"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/ic_baseline_arrow_back_ios_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Thông tin tỉnh"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_20"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btnDone"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/ic_baseline_check_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
+            android:layout_marginTop="@dimen/margin_padding_1_6x"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layoutCode"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_number"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/etCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:hint="Nhập code"
+                    android:text="29"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutName"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="@dimen/margin_padding_0_8x"
+                android:background="@drawable/bg_name"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/layoutCode"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_padding_1_6x"
+                    android:gravity="center"
+                    android:hint="Nhập tên tỉnh"
+                    android:text="Hà Nội"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
+                android:layout_marginVertical="@dimen/margin_padding_0_8x"
+                android:layout_weight="1"
+                android:text="Thêm biển số xe"
+                android:textAllCaps="false" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/remove"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
+                android:layout_marginVertical="@dimen/margin_padding_0_8x"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:text="Xóa biển số xe"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/add"
-            android:layout_width="wrap_content"
+            android:id="@+id/updateProvince"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
             android:layout_marginVertical="@dimen/margin_padding_0_8x"
-            android:layout_weight="1"
-            android:text="Thêm biển số xe"
+            android:text="Cập nhật tỉnh"
             android:textAllCaps="false" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/remove"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:backgroundTint="@android:color/holo_red_light"
+        <TextView
+            android:id="@+id/tvListDistrict"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
             android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
             android:layout_marginVertical="@dimen/margin_padding_0_8x"
-            android:layout_weight="1"
-            android:text="Xóa biển số xe"
+            android:gravity="center"
+            android:text="Danh sách huyện"
+            android:textAllCaps="false"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold" />
+
+        <!-- <View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
+             android:background="#BCBCBC"/>-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_district"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
+            android:layout_weight="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_district"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
+            android:layout_marginVertical="@dimen/margin_padding_0_8x"
+            android:text="Thêm huyện"
             android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/tvInfoProvince"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
+            android:layout_marginVertical="@dimen/margin_padding_0_8x"
+            android:gravity="center"
+            android:text="Thông tin tỉnh"
+            android:textAllCaps="false"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etInfoProvince"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp"
+            android:inputType="textMultiLine"
+            android:paddingVertical="@dimen/margin_padding_0_8x"
+            android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
+            android:layout_marginBottom="@dimen/margin_padding_1_6x"
+            android:padding="@dimen/margin_padding_0_8x"
+            android:hint="Chưa có thông tin tỉnh"
+            android:textColorHint="@color/colorBlack"
+            android:textColor="@color/colorBlack"
+            android:textStyle="italic"
+            android:textSize="@dimen/text_size_14"
+            android:background="@drawable/bg_infor_province"/>
 
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/updateProvince"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
-        android:layout_marginVertical="@dimen/margin_padding_0_8x"
-        android:text="Cập nhật tỉnh"
-        android:textAllCaps="false" />
-
-    <TextView
-        android:id="@+id/tvListDistrict"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
-        android:layout_marginVertical="@dimen/margin_padding_0_8x"
-        android:gravity="center"
-        android:text="Danh sách huyện"
-        android:textAllCaps="false"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/text_size_16"
-        android:textStyle="bold" />
-
-    <!-- <View
-         android:layout_width="match_parent"
-         android:layout_height="1dp"
-         android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
-         android:background="#BCBCBC"/>-->
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_district"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
-        android:layout_weight="1" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_add_district"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
-        android:layout_marginVertical="@dimen/margin_padding_0_8x"
-        android:text="Thêm huyện"
-        android:textAllCaps="false" />
-
-
-</LinearLayout>
+</ScrollView>

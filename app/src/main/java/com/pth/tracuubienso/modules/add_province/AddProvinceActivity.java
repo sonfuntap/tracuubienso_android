@@ -1,5 +1,6 @@
 package com.pth.tracuubienso.modules.add_province;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.pth.tracuubienso.R;
 import com.pth.tracuubienso.base.BaseActivity;
 import com.pth.tracuubienso.constant.Constant;
 import com.pth.tracuubienso.models.Province;
+import com.pth.tracuubienso.modules.home.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,13 +108,12 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
             btnUpdateProVince.setEnabled(true);
             btnDone.setVisibility(View.GONE);
 
-
             if (typeView.equals(Constant.TYPE_INTENT_EDIT)) {
                 etName.setEnabled(true);
                 etCode.setEnabled(true);
                 etInfoProvince.setEnabled(true);
                 rcv_district.setEnabled(true);
-                btnUpdateProVince.setVisibility(View.GONE);
+                btnUpdateProVince.setVisibility(View.VISIBLE);
                 btnAddBXS.setVisibility(View.VISIBLE);
                 btnRemoveBXS.setVisibility(View.VISIBLE);
                 tvTitle.setText(province.getNameProvince());
@@ -168,8 +169,8 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
         tvDistrictList = findViewById(R.id.tvListDistrict);
         btnAddBXS = findViewById(R.id.add);
         btnRemoveBXS = findViewById(R.id.remove);
-        tvInfoProvince= findViewById(R.id.tvInfoProvince);
-        etInfoProvince= findViewById(R.id.etInfoProvince);
+        tvInfoProvince = findViewById(R.id.tvInfoProvince);
+        etInfoProvince = findViewById(R.id.etInfoProvince);
 
 
         databaseReferenceProvince = FirebaseDatabase.getInstance().getReference(Constant.TBL_PROVINCE);
@@ -181,16 +182,23 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
         });
 
         btnUpdateProVince.setOnClickListener(v -> {
-
-            if (!etCode.getText().toString().equals("")) {
-                province.addCode(etCode.getText().toString());
+            String code= etCode.getText().toString();
+            if (!code.equals("")) {
+                if(province.getCodeProvinces().size()>0){
+                    for (String c: province.getCodeProvinces()){
+                        if(!code.equals(c)){
+                            province.addCode(etCode.getText().toString());
+                        }
+                    }
+                }
+                else province.addCode(etCode.getText().toString());
             }
             if (!etName.getText().toString().equals("")) {
                 province.setNameProvince(etName.getText().toString());
             }
 
-            if(!etInfoProvince.getText().toString().equals("")){
-                province.setNameProvince(etInfoProvince.getText().toString());
+            if (!etInfoProvince.getText().toString().equals("")) {
+                province.setInformation(etInfoProvince.getText().toString());
             }
 
             if (province != null) {
@@ -229,8 +237,32 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
         });
 
         btn_add_district.setOnClickListener(v -> {
-            AddDistrictBottomDialog addDistrictBottomDialog = new AddDistrictBottomDialog(province, this);
-            addDistrictBottomDialog.show(getSupportFragmentManager(), AddDistrictBottomDialog.class.getSimpleName());
+            String code= etCode.getText().toString();
+            if (!code.equals("")) {
+                if(province.getCodeProvinces().size()>0){
+                    for (String c: province.getCodeProvinces()){
+                        if(!code.equals(c)){
+                            province.addCode(etCode.getText().toString());
+                        }
+                    }
+                }
+                else province.addCode(etCode.getText().toString());
+            }
+
+            if (!etName.getText().toString().equals("")) {
+                province.setNameProvince(etName.getText().toString());
+            }
+
+            if (!etInfoProvince.getText().toString().equals("")) {
+                province.setInformation(etInfoProvince.getText().toString());
+            }
+
+            if (province.getCodeProvinces().size() > 0 && province.getNameProvince() != null) {
+                AddDistrictBottomDialog addDistrictBottomDialog = new AddDistrictBottomDialog(province, this);
+                addDistrictBottomDialog.show(getSupportFragmentManager(), AddDistrictBottomDialog.class.getSimpleName());
+            } else
+                Toast.makeText(AddProvinceActivity.this, "Vui lòng nhập thông tin tỉnh!", Toast.LENGTH_SHORT).show();
+
         });
     }
 
@@ -240,6 +272,8 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
                 .setValue(province)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(AddProvinceActivity.this, "Cập  nhật thành công", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(AddProvinceActivity.this, HomeActivity.class));
+                    finish();
                 }).addOnFailureListener(e -> {
             Toast.makeText(AddProvinceActivity.this,
                     "Lỗi: " + e.getMessage() + "\n Vui lòng kiểm tra lại", Toast.LENGTH_SHORT).show();

@@ -147,14 +147,6 @@
 
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/updateProvince"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
-            android:layout_marginVertical="@dimen/margin_padding_0_8x"
-            android:text="Cập nhật tỉnh"
-            android:textAllCaps="false" />
 
         <TextView
             android:id="@+id/tvListDistrict"
@@ -212,7 +204,7 @@
             android:inputType="textMultiLine"
             android:paddingVertical="@dimen/margin_padding_0_8x"
             android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
-            android:layout_marginBottom="@dimen/margin_padding_1_6x"
+
             android:padding="@dimen/margin_padding_0_8x"
             android:hint="Chưa có thông tin tỉnh"
             android:textColorHint="@color/colorBlack"
@@ -220,6 +212,17 @@
             android:textStyle="italic"
             android:textSize="@dimen/text_size_14"
             android:background="@drawable/bg_infor_province"/>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/updateProvince"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="@dimen/margin_padding_0_8x"
+            android:layout_marginVertical="@dimen/margin_padding_0_8x"
+            android:layout_marginBottom="@dimen/margin_padding_1_6x"
+            android:text="Cập nhật tỉnh"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 

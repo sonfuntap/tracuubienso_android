@@ -89,7 +89,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
 
         holder.name.setText(province.getNameProvince());
-        holder.code.setText(getCode(province.getCodeProvinces()));
+        if(province.getCodeProvinces()!=null && province.getCodeProvinces().size()>0){
+            holder.code.setText(getCode(province.getCodeProvinces()));
+        }
+        else holder.code.setText("");
+
         Province finalProvince = province;
         holder.linearLayout.setOnClickListener(v -> onClickItemListener.onClick(v, finalProvince));
         holder.btnDelete.setOnClickListener(v -> onClickItemListener.onDeleteClick(v, finalProvince));

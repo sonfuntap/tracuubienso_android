@@ -27,11 +27,13 @@ public class AddBxsDilalog extends DialogFragment {
     MaterialButton btnCancel;
     DatabaseReference databaseReferenceProvince;
     Province province;
+    IAddProvince iAddProvince;
 
-    public AddBxsDilalog(Province province) {
+
+    public AddBxsDilalog(Province province, IAddProvince iAddProvince) {
         this.province = province;
+        this.iAddProvince= iAddProvince;
     }
-
 
 
     @Override
@@ -62,8 +64,8 @@ public class AddBxsDilalog extends DialogFragment {
 
                 if (!"".equals(etBXS.getText().toString())) {
                     addProvince(etBXS.getText().toString(), province);
-                }
-                else Toast.makeText(getContext(), "Vui lòng nhập biển số xe!", Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(getContext(), "Vui lòng nhập biển số xe!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -73,21 +75,16 @@ public class AddBxsDilalog extends DialogFragment {
                 dismiss();
             }
         });
-
-
         return view;
-
-
     }
 
     private void addProvince(String code, Province provinceOld) {
-
         provinceOld.addCode(code);
-
         databaseReferenceProvince.child(provinceOld.getNameProvince())
                 .setValue(provinceOld)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(getContext(), "Cập  nhật thành công", Toast.LENGTH_SHORT).show();
+                    iAddProvince.updateProvince(provinceOld);
                     dismiss();
                 }).addOnFailureListener(e -> {
             Toast.makeText(getContext(),

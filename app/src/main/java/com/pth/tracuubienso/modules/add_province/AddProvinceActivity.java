@@ -113,7 +113,11 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
                 btnRemoveBXS.setVisibility(View.VISIBLE);
                 tvTitle.setText(province.getNameProvince());
                 etName.setText(province.getNameProvince());
-                etCode.setText(getCode(province.getCodeProvinces()));
+                if(province.getCodeProvinces()!=null && province.getCodeProvinces().size()>0){
+                    etCode.setText(getCode(province.getCodeProvinces()));
+                }
+                else   etCode.setText("");
+
                 initRcv(districts);
             } else if (typeView.equals(Constant.TYPE_INTENT_ADD)) {
                 etName.setEnabled(true);
@@ -140,7 +144,10 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
             tvTitle.setText(province.getNameProvince());
             rcv_district.setEnabled(false);
             etName.setText(province.getNameProvince());
-            etCode.setText(getCode(province.getCodeProvinces()));
+            if(province.getCodeProvinces()!=null && province.getCodeProvinces().size()>0){
+                etCode.setText(getCode(province.getCodeProvinces()));
+            }
+            else   etCode.setText("");
             initRcv(districts);
         }
 
@@ -189,7 +196,17 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
         btnAddBXS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddBxsDilalog(province).show(getSupportFragmentManager(), AddBxsDilalog.class.getSimpleName());
+                new AddBxsDilalog(province, new IAddProvince() {
+                    @Override
+                    public void updateDistrictList(Province province) {
+
+                    }
+
+                    @Override
+                    public void updateProvince(Province province) {
+                        getDataProvince(databaseReferenceProvince);
+                    }
+                }).show(getSupportFragmentManager(), AddBxsDilalog.class.getSimpleName());
             }
         });
 
@@ -326,6 +343,10 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
                         provinceUpdate = new Province();
                         provinceUpdate = snapshot.getValue(Province.class);
                         etCode.setText(getCode(provinceUpdate.getCodeProvinces()));
+                        if(province.getCodeProvinces()!=null && province.getCodeProvinces().size()>0){
+                            etCode.setText(getCode(provinceUpdate.getCodeProvinces()));
+                        }
+                        else   etCode.setText("");
                     }
 
                     @Override

@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -37,6 +36,7 @@ import com.pth.tracuubienso.modules.add_province.AddProvinceActivity;
 import com.pth.tracuubienso.modules.login.LoginActivity;
 import com.pth.tracuubienso.utils.PreferenceHelper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -114,6 +114,7 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
             Intent intent = new Intent(HomeActivity.this, AddProvinceActivity.class);
             intent.putExtra(Constant.TYPE_INTENT, Constant.TYPE_INTENT_ADD);
             intent.putExtra(Constant.IS_ADMIN, currentUser.isAdmin());
+            intent.putExtra(Constant.LIST_PROVINCE, (Serializable) provinces);
             startActivity(intent);
         });
 
@@ -135,11 +136,13 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
                 } else if (homeAdapter != null) {
                     if (!homeAdapter.searchProvinces(s.toString(), provinces).isEmpty()) {
                         provincesSearch = homeAdapter.searchProvinces(s.toString(), provinces);
+
                     } else if (!homeAdapter.searchProvincesByCode(s.toString(), provinces).isEmpty()) {
                         provincesSearch = homeAdapter.searchProvincesByCode(s.toString(), provinces);
                     }
 
                     setDataAdapterSearch(provincesSearch);
+//                    showAlertDialog(HomeActivity.this, "Thông báo", "Có "+ provincesSearch.size() + " kết quả được tìm thấy!");
                 } else Log.e(HomeActivity.class.getSimpleName(), "Home Adapter is null");
 
             }
@@ -311,6 +314,7 @@ public class HomeActivity extends BaseActivity implements HomeAdapter.OnClickIte
         intent.putExtra(Constant.TYPE_INTENT, Constant.TYPE_INTENT_EDIT);
         intent.putExtra(Constant.PROVINCE_OBJ, province);
         intent.putExtra(Constant.IS_ADMIN, currentUser.isAdmin());
+        intent.putExtra(Constant.LIST_PROVINCE, (Serializable) provinces);
         startActivity(intent);
 
     }

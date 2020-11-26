@@ -58,6 +58,8 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
     boolean isAdmin;
 
 
+    List<Province> provinces;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +80,12 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
             }
             if (getIntent().hasExtra(Constant.PROVINCE_OBJ)) {
                 province = (Province) getIntent().getSerializableExtra(Constant.PROVINCE_OBJ);
-
             }
+            if (getIntent().hasExtra(Constant.LIST_PROVINCE)) {
+                provinces = (List<Province>) getIntent().getSerializableExtra(Constant.LIST_PROVINCE);
+            }
+
+
 
             districts = Objects.requireNonNull(province).getDistricts();
             setDataView(province, typeView);
@@ -168,6 +174,7 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
         btnAddBXS = findViewById(R.id.add);
         btnRemoveBXS = findViewById(R.id.remove);
 
+        provinces= new ArrayList<>();
 
         databaseReferenceProvince = FirebaseDatabase.getInstance().getReference(Constant.TBL_PROVINCE);
         province = new Province();
@@ -186,11 +193,23 @@ public class AddProvinceActivity extends BaseActivity implements IAddProvince, D
                 province.setNameProvince(etName.getText().toString());
             }
 
-            if (province != null) {
-                addProvince(province);
-            } else
-                Toast.makeText(AddProvinceActivity.this, "Kiểm tra lại thông tin tỉnh !", Toast.LENGTH_SHORT).show();
 
+            boolean checkName= false;
+
+            for (Province p: provinces){
+                if(etName.getText().toString().toLowerCase().equals(p.getNameProvince().toLowerCase())){
+                    showAlertDialog(this, "Thông báo", "Tên tỉnh đã tồn tại");
+                    checkName= true;
+                    break;
+                }
+
+            }
+            if(!checkName){
+                if (province != null) {
+                    addProvince(province);
+                } else
+                    Toast.makeText(AddProvinceActivity.this, "Kiểm tra lại thông tin tỉnh !", Toast.LENGTH_SHORT).show();
+            }
         });
 
         btnAddBXS.setOnClickListener(new View.OnClickListener() {

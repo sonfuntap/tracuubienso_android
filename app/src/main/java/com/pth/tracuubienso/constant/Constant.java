@@ -1,7 +1,5 @@
 package com.pth.tracuubienso.constant;
 
-import com.pth.tracuubienso.models.Province;
-
 public class Constant {
     public static final long CONNECT_TIMEOUT = 1;
     public static final String BASE_URL_FCM = "";
@@ -14,4 +12,5 @@ public class Constant {
     public static final String PROVINCE_OBJ = "PROVINCE_OBJ";
     public static final String IS_ADMIN = "IS_ADMIN";
     public static final String DISTRICT_OBJ = "DISTRICT_OBJ";
+    public static final String LIST_PROVINCE = "LIST_PROVINCE";
 }
